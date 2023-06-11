@@ -35,6 +35,22 @@ function createLogo(responses, logoFilename) {
     htmlLogoString = '<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">';
     htmlLogoString += "<g>";
     htmlLogoString += `${responses.shape}`;
+
+    let shapeChoiceInheritance = undefined;
+    if (responses.shape === "Circle") {
+      shapeChoiceInheritance = new Circle (); 
+      htmlLogoString += `<circle cx="150" cy="115" r="80" fill="${responses.shapeBackgroundColor}"/>`;
+    }
+    else if (responses.shape === "Triangle") {
+      shapeChoiceInheritance = new Triangle();
+      htmlLogoString += `<polygon points="150, 18 244, 182 56, 182" fill="${responses.shapeBackgroundColor}"/>`;
+    }
+    else {
+      shapeChoiceInheritance = new Square();
+      htmlLogoString += `<rect x="73" y="40" width="160" height="160" fill="${responses.shapeBackgroundColor}"/>`;
+    }
+    // TODO: add remaining code to complete html logo string and also use fs.WriteFile after that
+
 }
 
 // using inquirer module that was npm installed and will call .prompt and .then to deal with user input on command line and deal with them
