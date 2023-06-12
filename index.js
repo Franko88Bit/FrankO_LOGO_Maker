@@ -5,17 +5,17 @@ const  {Circle, Triangle, Square} = require("./lib/shapes");
 const questions = [
     {
         type: "input",
-        message: "Please enter up too three characters",
+        message: "Please enter up to three characters",
         name: "text"
     },
     {
         type: "input",
-        message: "Please enter a color keyword (Or a hexadecimal number)",
+        message: "Please enter a color for the text inside the logo",
         name: "textColor"
     },
     {
         type: "input",
-        message: "Please enter a shape, either Circle, Square, or Triangle",
+        message: "Please enter a shape, either circle, square, or triangle",
         name: "shape"
         
     },
@@ -36,21 +36,33 @@ function createLogo(responses, logoFilename) {
     htmlLogoString += "<g>";
     htmlLogoString += `${responses.shape}`;
 
+    // showing that i am using inheritance even though not using shapreChoiceInheritance after the if-else-else block
     let shapeChoiceInheritance = undefined;
-    if (responses.shape === "Circle") {
+    if (responses.shape === "circle") {
       shapeChoiceInheritance = new Circle (); 
-      htmlLogoString += `<circle cx="150" cy="115" r="80" fill="${responses.shapeBackgroundColor}"/>`;
+      htmlLogoString += `<circle cx="150" cy="115" r="80" fill="${responses.shapeColor}"/>`;
     }
-    else if (responses.shape === "Triangle") {
+    else if (responses.shape === "triangle") {
       shapeChoiceInheritance = new Triangle();
-      htmlLogoString += `<polygon points="150, 18 244, 182 56, 182" fill="${responses.shapeBackgroundColor}"/>`;
+      htmlLogoString += `<polygon points="150, 18 244, 182 56, 182" fill="${responses.shapeColor}"/>`;
     }
     else {
       shapeChoiceInheritance = new Square();
-      htmlLogoString += `<rect x="73" y="40" width="160" height="160" fill="${responses.shapeBackgroundColor}"/>`;
+      htmlLogoString += `<rect x="73" y="40" width="160" height="160" fill="${responses.shapeColor}"/>`;
     }
-    // TODO: add remaining code to complete html logo string and also use fs.WriteFile after that
 
+    htmlLogoString += `<text x="150" y="130" text-anchor="middle" font-size="40" fill="${responses.textColor}">${responses.text}</text>`;
+    htmlLogoString += "</g>";
+    htmlLogoString += "</svg>";
+
+    fs.writeFile(logoFilename, htmlLogoString, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("logo.svg generated! Please check.");
+        }
+      });
 }
 
 // using inquirer module that was npm installed and will call .prompt and .then to deal with user input on command line and deal with them
